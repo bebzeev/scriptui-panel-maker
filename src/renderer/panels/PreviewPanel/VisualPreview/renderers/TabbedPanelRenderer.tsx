@@ -10,23 +10,46 @@ export function TabbedPanelRenderer({ item, state, renderChildren }: RendererPro
   const [activeTab, setActiveTab] = useState(style.selection ?? 0)
 
   return (
-    <ItemWrapper item={item} style={{ display: 'flex', flexDirection: 'column', ...alignmentToCSS(style.alignment), ...sizeToCSS(style.preferredSize) }}>
-      {/* Tab headers */}
-      <div style={{ display: 'flex', borderBottom: '1px solid var(--sui-divider)' }}>
+    <ItemWrapper
+      item={item}
+      style={{
+        display: 'inline-flex',
+        flexDirection: 'column',
+        ...alignmentToCSS(style.alignment),
+        ...sizeToCSS(style.preferredSize),
+      }}
+    >
+      {/* Tab header bar — AE style: dark background, tabs with borders */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          background: 'var(--sui-tab-bar-bg)',
+          borderBottom: '1px solid var(--sui-tab-border)',
+          gap: 1,
+          paddingLeft: 4,
+          paddingTop: 4,
+        }}
+      >
         {tabs.map((tab, i) => {
           const tabStyle = tab.style as { text?: string }
+          const isActive = i === activeTab
           return (
             <button
               key={tab.id}
               onClick={(e) => { e.stopPropagation(); setActiveTab(i) }}
               style={{
-                padding: '3px 12px',
+                padding: '3px 14px',
                 fontSize: 11,
-                color: i === activeTab ? 'var(--sui-tab-active-text)' : 'var(--sui-text)',
-                background: i === activeTab ? 'var(--sui-bg)' : 'rgba(0,0,0,0.2)',
-                border: 'none',
-                borderBottom: i === activeTab ? '2px solid var(--sui-accent)' : '2px solid transparent',
+                fontFamily: 'system-ui, -apple-system, sans-serif',
+                color: isActive ? 'var(--sui-tab-active-text)' : 'var(--sui-tab-inactive-text)',
+                background: isActive ? 'var(--sui-tab-active-bg)' : 'transparent',
+                border: isActive ? '1px solid var(--sui-tab-border)' : '1px solid transparent',
+                borderBottom: isActive ? '1px solid var(--sui-tab-active-bg)' : '1px solid var(--sui-tab-border)',
+                borderRadius: '2px 2px 0 0',
                 cursor: 'pointer',
+                position: 'relative',
+                bottom: -1,
               }}
             >
               {tabStyle.text ?? `Tab ${i + 1}`}
@@ -37,7 +60,15 @@ export function TabbedPanelRenderer({ item, state, renderChildren }: RendererPro
 
       {/* Active tab content */}
       {tabs[activeTab] && (
-        <div style={{ padding: 8, flex: 1 }}>
+        <div
+          style={{
+            padding: 8,
+            flex: 1,
+            background: 'var(--sui-tab-active-bg)',
+            border: '1px solid var(--sui-tab-border)',
+            borderTop: 'none',
+          }}
+        >
           {renderChildren(tabs[activeTab].id)}
         </div>
       )}

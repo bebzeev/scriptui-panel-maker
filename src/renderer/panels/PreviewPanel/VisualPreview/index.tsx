@@ -2,7 +2,6 @@ import React from 'react'
 import { useAppStore } from '../../../store'
 import { getRootItem, getChildren } from '../../../store/selectors'
 import type { AppState, ScriptUIItem } from '../../../types/schema'
-import { ELEMENT_REGISTRY } from '../../../elements'
 
 // Import all renderers
 import { DialogRenderer } from './renderers/DialogRenderer'
@@ -90,8 +89,8 @@ export function VisualPreview() {
 
   return (
     <div
-      className="flex-1 h-full overflow-auto flex items-start justify-center p-8"
-      style={{ background: '#2a2a2a' }}
+      className="flex-1 h-full overflow-auto flex items-center justify-center p-8"
+      style={{ background: '#383838' }}
     >
       {renderItem(root)}
     </div>

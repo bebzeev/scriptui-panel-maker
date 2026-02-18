@@ -1,80 +1,97 @@
 /* ScriptUI Preview Color Theme
    Based on After Effects Dark (Theme 3: #535353 base)
-   Values extracted from reference app's sui-interface-colors.scss
+   Pixel-accurate to AE's dark UI — matched against reference screenshots
 */
 :root {
+  /* --- Base --- */
   --sui-bg: #535353;
   --sui-panel-bg: #535353;
-  --sui-text: #ffffff;
-  --sui-text-label: #f0f0f0;
-  --sui-text-disabled: rgba(255, 255, 255, 0.4);
+  /* AE label text is mid-gray, not pure white */
+  --sui-text: #cccccc;
+  --sui-text-label: #cccccc;
+  --sui-text-disabled: rgba(204, 204, 204, 0.4);
 
-  /* Buttons — pill shaped as in AE */
-  --sui-button-border: #c1c1c1;
-  --sui-button-hover-bg: #cdcdcd;
-  --sui-button-hover-text: #535353;
+  /* --- Buttons — pill shaped as in AE --- */
+  /* AE buttons have a visible raised gray bg */
+  --sui-button-bg: #686868;
+  --sui-button-border: #888888;
+  --sui-button-hover-bg: #7a7a7a;
+  --sui-button-hover-text: #ffffff;
   --sui-button-radius: 9999px;
 
-  /* Input fields */
-  --sui-input-bg: #4c4c4c;        /* darken(#535353, 7) */
-  --sui-input-border: #5f5f5f;    /* lighten(#535353, 7) */
-  --sui-input-focus-bg: #464646;  /* darken(#535353, 12) */
-  --sui-input-text: #d6d6d6;
+  /* --- Input fields (noticeably darker than panel bg) --- */
+  --sui-input-bg: #3d3d3d;
+  --sui-input-border: #2a2a2a;
+  --sui-input-top-border: #6a6a6a;
+  --sui-input-focus-bg: #383838;
+  --sui-input-text: #cccccc;
 
-  /* List / ListBox */
-  --sui-listbox-bg: #535353;
-  --sui-listbox-border: #636363;  /* lighten(#535353, 10) */
-  --sui-listbox-sel-bg: #345c80;  /* AE blue selection */
-  --sui-listbox-hover-bg: #5f5f5f;
-  --sui-listbox-divider: #4b4b4b;
+  /* --- List / ListBox --- */
+  --sui-listbox-bg: #3d3d3d;
+  --sui-listbox-border: #2a2a2a;
+  --sui-listbox-sel-bg: #345c80;
+  --sui-listbox-hover-bg: #4a4a4a;
+  --sui-listbox-divider: #2a2a2a;
 
-  /* DropDownList */
-  --sui-dropdown-bg: #4c4c4c;
-  --sui-dropdown-arrow-bg: #3f4141;
-  --sui-dropdown-sel-bg: #345c80;
+  /* --- DropDownList --- */
+  --sui-dropdown-bg: #3d3d3d;
+  --sui-dropdown-border: #2a2a2a;
+  --sui-dropdown-arrow-bg: #2e2e2e;
 
-  /* Slider */
-  --sui-slider-track: #747474;
-  --sui-slider-thumb: #535454;
-  --sui-slider-thumb-border: #c7c7c7;
+  /* --- Checkbox / Radio --- */
+  --sui-checkbox-bg: #3d3d3d;
+  --sui-checkbox-border: #888888;
+
+  /* --- Slider --- */
+  --sui-slider-track: #3d3d3d;
+  --sui-slider-track-border: #2a2a2a;
+  --sui-slider-thumb: #c7c7c7;
+  --sui-slider-thumb-border: #aaaaaa;
   --sui-slider-thumb-active: #459ff4;
-  --sui-slider-thumb-shadow: 0px 0px 0px 3px #535454, 0px 0px 0px #606161;
 
-  /* Progressbar */
-  --sui-progressbar-bg: #525252;  /* darken(#535353, 4) */
+  /* --- Progressbar --- */
+  --sui-progressbar-bg: #3d3d3d;
+  --sui-progressbar-border: #2a2a2a;
   --sui-progressbar-fill: #46a0f5;
-  --sui-progressbar-radius: 9999px;
+  --sui-progressbar-radius: 2px;
 
-  /* Tabs */
-  --sui-tab-active-text: #ffffff;
-  --sui-tab-border: #dadada;
+  /* --- Tabs (ScriptUI TabbedPanel) --- */
+  --sui-tab-bar-bg: #444444;
+  --sui-tab-active-bg: #535353;
+  --sui-tab-active-text: #cccccc;
+  --sui-tab-inactive-text: #999999;
+  --sui-tab-border: #2a2a2a;
 
-  /* Divider */
-  --sui-divider: #4b4b4b;
+  /* --- Divider --- */
+  --sui-divider-dark: #3a3a3a;
+  --sui-divider-light: #686868;
 
-  /* Panel border */
-  --sui-panel-border: #4e4e4e;    /* darken(#535353, 5) */
-
-  /* Panel border styles */
-  --sui-panel-border-etched: inset 1px 1px #666666, inset -1px -1px #333333;
-  --sui-panel-border-raised: 1px solid #888888;
-  --sui-panel-border-sunken: inset 1px 1px #333333, inset -1px -1px #666666;
+  /* --- Panel widget border (ScriptUI Panel with optional title) --- */
+  /* AE panels use an etched double-border: dark inside, light highlight */
+  --sui-panel-border-etched-dark: #3a3a3a;
+  --sui-panel-border-etched-light: #686868;
+  --sui-panel-border-raised: 1px solid #686868;
+  --sui-panel-border-sunken-inner: #2a2a2a;
+  --sui-panel-border-sunken-outer: #686868;
   --sui-panel-border-gray: 1px solid #808080;
   --sui-panel-border-black: 1px solid #000000;
 
-  /* Selected item accent — green glow (matches reference app) */
+  /* --- Selection accent — green glow --- */
   --sui-accent: #33cc59;
-  --sui-accent-glow: 0 0 0 2px #33cc59, 0 0 12px rgba(51, 204, 89, 0.4);
+  --sui-accent-glow: 0 0 0 2px #33cc59, 0 0 14px rgba(51, 204, 89, 0.45);
 
-  /* Icon button */
-  --sui-iconbtn-border: #fafafa;
-  --sui-iconbtn-hover-bg: #ffffff;
-  --sui-iconbtn-hover-text: #535353;
+  /* --- Icon button --- */
+  --sui-iconbtn-bg: #686868;
+  --sui-iconbtn-border: #888888;
+  --sui-iconbtn-hover-bg: #7a7a7a;
   --sui-iconbtn-active-bg: #45a0f5;
 
-  /* Window shadow */
-  --sui-dialog-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7), 0px 2px 30px 3px rgba(0, 0, 0, 0.4);
+  /* --- Window/dialog chrome (very dark, like AE's panel header) --- */
+  --sui-titlebar-bg: #1c1c1c;
+  --sui-titlebar-text: #999999;
+  --sui-titlebar-border: #111111;
+  --sui-dialog-shadow: 0 4px 32px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.6);
 
-  /* Disabled: 40% opacity */
+  /* Disabled */
   --sui-disabled-opacity: 0.4;
 }

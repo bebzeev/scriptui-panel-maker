@@ -13,7 +13,6 @@ const CATEGORY_LABELS = {
 export function AddItemsPanel() {
   const { activeId, items } = useAppStore()
 
-  // Determine which element can be a parent for the next added item
   const activeItem = activeId ? items[activeId] : null
   const parentId = activeItem
     ? (ELEMENT_REGISTRY[activeItem.type].isContainer ? activeItem.id : activeItem.parentId)
@@ -32,9 +31,10 @@ export function AddItemsPanel() {
             <div className="px-1 mb-1 text-2xs font-semibold text-app-muted uppercase tracking-wider">
               {CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS]}
             </div>
-            <div className="grid grid-cols-2 gap-0.5">
+            {/* Single column list */}
+            <div className="flex flex-col gap-0.5">
               {types
-                .filter((type) => type !== 'Dialog') // Dialog is always the root, can't be added
+                .filter((type) => type !== 'Dialog')
                 .map((type) => {
                   const def = ELEMENT_REGISTRY[type]
                   const disabled = !parentType || !canContain(parentType, type)
@@ -71,7 +71,6 @@ function AddItemButton({
   parentId: string | null
 }) {
   const { addItem } = useAppStore()
-
   const IconComponent = (Icons as Record<string, React.ComponentType<{ size?: number; className?: string }>>)[icon]
 
   const handleClick = () => {
@@ -85,7 +84,7 @@ function AddItemButton({
       disabled={disabled}
       title={disabled ? `Cannot add ${label} here` : `Add ${label}`}
       className={`
-        flex items-center gap-1.5 px-2 py-1.5 rounded text-xs text-left transition-colors
+        flex items-center gap-2 px-2 py-1.5 rounded text-xs text-left transition-colors w-full
         ${disabled
           ? 'text-app-muted opacity-40 cursor-not-allowed'
           : 'text-app-text hover:bg-app-hover cursor-pointer'

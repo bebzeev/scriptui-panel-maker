@@ -5,17 +5,6 @@ import React from 'react'
 import type { ScriptUIItem, MarginsValue, SizeValue, AlignH, AlignV } from '../../../../types/schema'
 import { useAppStore } from '../../../../store'
 
-/** Apply visibility + disabled opacity to a rendered element */
-export function useItemStyle(item: ScriptUIItem): React.CSSProperties {
-  const style = item.style as Record<string, unknown>
-  const isVisible = style.visible !== false
-  const isEnabled = style.enabled !== false
-  const result: React.CSSProperties = {}
-  if (!isVisible) result.opacity = 0.3
-  else if (!isEnabled) result.opacity = 0.4
-  return result
-}
-
 /** Wrapper that handles selection click and visibility */
 export function ItemWrapper({
   item,
@@ -30,24 +19,40 @@ export function ItemWrapper({
 }) {
   const { activeId, setActiveId } = useAppStore()
   const isActive = item.id === activeId
-  const itemStyle = useItemStyle(item)
   const s = item.style as Record<string, unknown>
   const isVisible = s.visible !== false
+  const isEnabled = s.enabled !== false
 
   return (
     <div
       onClick={(e) => { e.stopPropagation(); setActiveId(item.id) }}
       style={{
-        ...itemStyle,
+        opacity: !isVisible ? 0.3 : !isEnabled ? 0.4 : 1,
+        outline: isActive ? '2px solid #33cc59' : undefined,
+        outlineOffset: isActive ? '1px' : undefined,
+        boxShadow: isActive ? '0 0 10px rgba(51,204,89,0.35)' : undefined,
+        position: 'relative',
         ...extraStyle,
-        ...(isActive ? { boxShadow: '0 0 0 2px var(--sui-accent), 0 0 12px rgba(51,204,89,0.3)' } : {}),
       }}
-      className={`relative cursor-pointer transition-shadow ${className ?? ''}`}
+      className={`cursor-pointer ${className ?? ''}`}
       title={isVisible ? undefined : 'Hidden (visible: false)'}
     >
       {children}
       {!isVisible && (
-        <div className="absolute top-0 right-0 bg-black/50 text-app-muted text-2xs px-1 rounded-bl pointer-events-none">
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            background: 'rgba(0,0,0,0.55)',
+            color: '#aaa',
+            fontSize: 9,
+            padding: '1px 3px',
+            borderRadius: '0 0 0 2px',
+            pointerEvents: 'none',
+            lineHeight: 1.4,
+          }}
+        >
           hidden
         </div>
       )}
@@ -101,14 +106,13 @@ export function alignChildrenToCSS(
 /** Convert self-alignment to flex CSS */
 export function alignmentToCSS(alignment: string | null): React.CSSProperties {
   if (!alignment) return {}
+  if (alignment === 'fill') return { flex: 1, alignSelf: 'stretch' }
   const map: Record<string, string> = {
     left: 'flex-start',
     right: 'flex-end',
     top: 'flex-start',
     bottom: 'flex-end',
     center: 'center',
-    fill: '1',
   }
-  if (alignment === 'fill') return { flex: 1, alignSelf: 'stretch' }
   return { alignSelf: map[alignment] ?? 'auto' }
 }

@@ -1,8 +1,9 @@
+/* @import must come before all @tailwind directives */
+@import './scriptui-theme.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@import './scriptui-theme.css';
 
 /* App-wide base styles */
 *, *::before, *::after {
