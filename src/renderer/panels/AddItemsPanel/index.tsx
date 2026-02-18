@@ -13,12 +13,33 @@ const CATEGORY_LABELS = {
 export function AddItemsPanel() {
   const { activeId, items } = useAppStore()
 
+  // Find the best parent for the next added item:
+  // - If something is selected and it's a container → use it
+  // - If something is selected and it's a leaf → use its parent
+  // - If nothing is selected → use the root Dialog
   const activeItem = activeId ? items[activeId] : null
   const parentId = activeItem
     ? (ELEMENT_REGISTRY[activeItem.type].isContainer ? activeItem.id : activeItem.parentId)
     : Object.values(items).find((i) => !i.parentId)?.id ?? null
 
   const parentType = parentId ? items[parentId]?.type : null
+
+  // Walk up the ancestor chain to find the nearest ancestor that CAN contain
+  // a given type — used so we can still add Panel when e.g. a Group is selected
+  // inside a Dialog even though the immediate parent might be something restrictive.
+  function findValidParentId(type: ScriptUIElementType): string | null {
+    // Try the current parent first
+    if (parentId && parentType && canContain(parentType, type)) return parentId
+    // Walk up: check each ancestor
+    let cur = parentId
+    while (cur) {
+      const item = items[cur]
+      if (!item) break
+      if (canContain(item.type, type)) return cur
+      cur = item.parentId
+    }
+    return null
+  }
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
@@ -31,13 +52,14 @@ export function AddItemsPanel() {
             <div className="px-1 mb-1 text-2xs font-semibold text-app-muted uppercase tracking-wider">
               {CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS]}
             </div>
-            {/* Single column list */}
             <div className="flex flex-col gap-0.5">
               {types
                 .filter((type) => type !== 'Dialog')
                 .map((type) => {
                   const def = ELEMENT_REGISTRY[type]
-                  const disabled = !parentType || !canContain(parentType, type)
+                  // Find the nearest valid parent (walk up tree)
+                  const validParentId = findValidParentId(type)
+                  const disabled = !validParentId
                   return (
                     <AddItemButton
                       key={type}
@@ -45,7 +67,7 @@ export function AddItemsPanel() {
                       icon={def.addPanelIcon}
                       label={def.addPanelLabel}
                       disabled={disabled}
-                      parentId={parentId}
+                      parentId={validParentId}
                     />
                   )
                 })}
@@ -86,7 +108,7 @@ function AddItemButton({
       className={`
         flex items-center gap-2 px-2 py-1.5 rounded text-xs text-left transition-colors w-full
         ${disabled
-          ? 'text-app-muted opacity-40 cursor-not-allowed'
+          ? 'text-app-muted opacity-30 cursor-not-allowed'
           : 'text-app-text hover:bg-app-hover cursor-pointer'
         }
       `}
