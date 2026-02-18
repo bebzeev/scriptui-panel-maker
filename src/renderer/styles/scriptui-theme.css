@@ -1,0 +1,80 @@
+/* ScriptUI Preview Color Theme
+   Based on After Effects Dark (Theme 3: #535353 base)
+   Values extracted from reference app's sui-interface-colors.scss
+*/
+:root {
+  --sui-bg: #535353;
+  --sui-panel-bg: #535353;
+  --sui-text: #ffffff;
+  --sui-text-label: #f0f0f0;
+  --sui-text-disabled: rgba(255, 255, 255, 0.4);
+
+  /* Buttons — pill shaped as in AE */
+  --sui-button-border: #c1c1c1;
+  --sui-button-hover-bg: #cdcdcd;
+  --sui-button-hover-text: #535353;
+  --sui-button-radius: 9999px;
+
+  /* Input fields */
+  --sui-input-bg: #4c4c4c;        /* darken(#535353, 7) */
+  --sui-input-border: #5f5f5f;    /* lighten(#535353, 7) */
+  --sui-input-focus-bg: #464646;  /* darken(#535353, 12) */
+  --sui-input-text: #d6d6d6;
+
+  /* List / ListBox */
+  --sui-listbox-bg: #535353;
+  --sui-listbox-border: #636363;  /* lighten(#535353, 10) */
+  --sui-listbox-sel-bg: #345c80;  /* AE blue selection */
+  --sui-listbox-hover-bg: #5f5f5f;
+  --sui-listbox-divider: #4b4b4b;
+
+  /* DropDownList */
+  --sui-dropdown-bg: #4c4c4c;
+  --sui-dropdown-arrow-bg: #3f4141;
+  --sui-dropdown-sel-bg: #345c80;
+
+  /* Slider */
+  --sui-slider-track: #747474;
+  --sui-slider-thumb: #535454;
+  --sui-slider-thumb-border: #c7c7c7;
+  --sui-slider-thumb-active: #459ff4;
+  --sui-slider-thumb-shadow: 0px 0px 0px 3px #535454, 0px 0px 0px #606161;
+
+  /* Progressbar */
+  --sui-progressbar-bg: #525252;  /* darken(#535353, 4) */
+  --sui-progressbar-fill: #46a0f5;
+  --sui-progressbar-radius: 9999px;
+
+  /* Tabs */
+  --sui-tab-active-text: #ffffff;
+  --sui-tab-border: #dadada;
+
+  /* Divider */
+  --sui-divider: #4b4b4b;
+
+  /* Panel border */
+  --sui-panel-border: #4e4e4e;    /* darken(#535353, 5) */
+
+  /* Panel border styles */
+  --sui-panel-border-etched: inset 1px 1px #666666, inset -1px -1px #333333;
+  --sui-panel-border-raised: 1px solid #888888;
+  --sui-panel-border-sunken: inset 1px 1px #333333, inset -1px -1px #666666;
+  --sui-panel-border-gray: 1px solid #808080;
+  --sui-panel-border-black: 1px solid #000000;
+
+  /* Selected item accent — green glow (matches reference app) */
+  --sui-accent: #33cc59;
+  --sui-accent-glow: 0 0 0 2px #33cc59, 0 0 12px rgba(51, 204, 89, 0.4);
+
+  /* Icon button */
+  --sui-iconbtn-border: #fafafa;
+  --sui-iconbtn-hover-bg: #ffffff;
+  --sui-iconbtn-hover-text: #535353;
+  --sui-iconbtn-active-bg: #45a0f5;
+
+  /* Window shadow */
+  --sui-dialog-shadow: 0px 0px 2px rgba(0, 0, 0, 0.7), 0px 2px 30px 3px rgba(0, 0, 0, 0.4);
+
+  /* Disabled: 40% opacity */
+  --sui-disabled-opacity: 0.4;
+}

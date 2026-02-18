@@ -1,0 +1,36 @@
+import type { ElementDef } from '../../types/schema'
+
+export const dialogDef: ElementDef<'Dialog'> = {
+  type: 'Dialog',
+  isContainer: true,
+  defaultStyle: {
+    type: 'Dialog',
+    varName: null,
+    enabled: true,
+    visible: true,
+    helpTip: null,
+    text: 'My Panel',
+    windowType: 'Palette',
+    preferredSize: [0, 0],
+    margins: 16,
+    spacing: 10,
+    orientation: 'column',
+    alignChildren: ['center', 'top'],
+    alignment: null,
+    creationProps: {
+      su1PanelCoordinates: false,
+      maximizeButton: false,
+      minimizeButton: false,
+      independent: false,
+      closeButton: true,
+      borderless: false,
+      resizeable: true,
+    },
+  },
+  propertyGroups: ['content', 'layout', 'alignment', 'spacing', 'creationProps'],
+  addPanelIcon: 'AppWindow',
+  addPanelCategory: 'containers',
+  addPanelLabel: 'Dialog',
+  autoVarPrefix: 'palette',
+  editInfo: 'The root window. All other elements must be nested inside this.',
+}
