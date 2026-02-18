@@ -90,7 +90,7 @@ export function VisualPreview() {
   return (
     <div
       className="flex-1 h-full overflow-auto flex items-center justify-center p-8"
-      style={{ background: '#383838' }}
+      style={{ background: '#141414' }}
     >
       {renderItem(root)}
     </div>

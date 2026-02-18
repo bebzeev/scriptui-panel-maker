@@ -12,7 +12,7 @@ export function DialogRenderer({ item, renderChildren }: RendererProps) {
     flexDirection: style.orientation === 'row' ? 'row' : 'column',
     gap: `${style.spacing ?? 10}px`,
     padding: marginsToCSS(style.margins),
-    minWidth: 200,
+    minWidth: 220,
     boxSizing: 'border-box',
     ...sizeToCSS(style.preferredSize),
     ...alignChildrenToCSS(style.alignChildren, style.orientation),
@@ -24,23 +24,27 @@ export function DialogRenderer({ item, renderChildren }: RendererProps) {
         display: 'inline-flex',
         flexDirection: 'column',
         boxShadow: 'var(--sui-dialog-shadow)',
+        // AE panels have a 1–2px blue/teal focus highlight on the active panel edge
+        border: '1px solid #1e6fa5',
         borderRadius: 3,
-        overflow: 'hidden',
+        overflow: 'visible',
         maxWidth: '100%',
       }}
     >
-      {/* AE-accurate title bar: very dark charcoal, small text, no close buttons on palette */}
+      {/* AE-accurate title bar: very dark, small gray text, ☰ menu icon */}
       <div
         style={{
           background: 'var(--sui-titlebar-bg)',
           borderBottom: '1px solid var(--sui-titlebar-border)',
-          height: 20,
+          borderRadius: '2px 2px 0 0',
+          height: 24,
           display: 'flex',
           alignItems: 'center',
-          paddingLeft: 8,
+          paddingLeft: 10,
           paddingRight: 8,
           flexShrink: 0,
           userSelect: 'none',
+          gap: 8,
         }}
       >
         <span
@@ -49,29 +53,27 @@ export function DialogRenderer({ item, renderChildren }: RendererProps) {
             fontSize: 11,
             fontFamily: 'system-ui, -apple-system, sans-serif',
             fontWeight: 400,
+            flex: 1,
           }}
         >
           {style.text || 'Panel'}
         </span>
-        {/* Hamburger/options icon (AE panels have ≡ menu) */}
-        <div
+        {/* AE panels have a ≡ options menu icon on the right */}
+        <span
           style={{
-            marginLeft: 'auto',
             color: 'var(--sui-titlebar-text)',
-            fontSize: 14,
+            fontSize: 13,
+            opacity: 0.6,
             lineHeight: 1,
-            opacity: 0.7,
+            cursor: 'default',
           }}
         >
           ☰
-        </div>
+        </span>
       </div>
 
       {/* Panel body */}
-      <ItemWrapper
-        item={item}
-        style={containerStyle}
-      >
+      <ItemWrapper item={item} style={containerStyle}>
         {renderChildren(item.id)}
       </ItemWrapper>
     </div>

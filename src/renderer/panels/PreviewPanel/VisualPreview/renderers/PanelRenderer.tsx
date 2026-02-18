@@ -3,49 +3,24 @@ import type { RendererProps } from '../index'
 import type { PanelStyle } from '../../../../types/schema'
 import { ItemWrapper, marginsToCSS, alignChildrenToCSS, alignmentToCSS, sizeToCSS } from './shared'
 
-/** AE etched border: a 1px dark inset framed by a 1px lighter outer stroke */
-function getEtchedBorder(borderStyle: string): React.CSSProperties {
-  switch (borderStyle) {
-    case 'etched':
-      return {
-        border: '1px solid var(--sui-panel-border-etched-dark)',
-        boxShadow: 'inset 0 0 0 1px var(--sui-panel-border-etched-light)',
-      }
-    case 'raised':
-      return { border: '1px solid var(--sui-panel-border-etched-light)' }
-    case 'sunken':
-      return {
-        border: '1px solid var(--sui-panel-border-sunken-inner)',
-        boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.3)',
-      }
-    case 'gray':
-      return { border: '1px solid #808080' }
-    case 'black':
-      return { border: '1px solid #000' }
-    default:
-      return { border: '1px solid var(--sui-panel-border-etched-dark)' }
-  }
-}
-
 export function PanelRenderer({ item, renderChildren }: RendererProps) {
   const style = item.style as PanelStyle
-  const borderStyle = style.creationProps?.borderStyle ?? 'etched'
   const hasTitle = Boolean(style.text)
-  const TITLE_HEIGHT = 14
+  // Top padding must account for the title label that sits on the border
+  const topPad = hasTitle ? 16 : (typeof style.margins === 'number' ? style.margins : style.margins[0])
 
   const containerStyle: React.CSSProperties = {
     background: 'var(--sui-panel-bg)',
-    borderRadius: 2,
+    // Rounded border matching the AE "New Item Naming" / "Options" panel look
+    border: '1px solid var(--sui-panel-border-color)',
+    borderRadius: 4,
     padding: marginsToCSS(style.margins),
-    paddingTop: hasTitle
-      ? `${TITLE_HEIGHT + 4}px`
-      : marginsToCSS(style.margins),
+    paddingTop: topPad,
     display: 'flex',
     flexDirection: style.orientation === 'row' ? 'row' : 'column',
     gap: `${style.spacing ?? 4}px`,
     position: 'relative',
     boxSizing: 'border-box',
-    ...getEtchedBorder(borderStyle),
     ...sizeToCSS(style.preferredSize),
     ...alignChildrenToCSS(style.alignChildren, style.orientation),
     ...alignmentToCSS(style.alignment),
@@ -54,18 +29,23 @@ export function PanelRenderer({ item, renderChildren }: RendererProps) {
   return (
     <ItemWrapper item={item} style={containerStyle}>
       {hasTitle && (
+        /* Title label sits ON the top border line, like a fieldset/legend */
         <div
           style={{
             position: 'absolute',
             top: -1,
-            left: 8,
-            fontSize: 11,
-            color: 'var(--sui-text-label)',
+            left: 10,
+            // Match panel background so it "cuts" through the border
             background: 'var(--sui-panel-bg)',
-            paddingInline: 3,
-            lineHeight: `${TITLE_HEIGHT}px`,
-            height: TITLE_HEIGHT,
+            paddingInline: 4,
+            fontSize: 11,
             fontFamily: 'system-ui, -apple-system, sans-serif',
+            color: 'var(--sui-text-label)',
+            lineHeight: '14px',
+            height: 14,
+            // Shift up so the text midpoint aligns with the border
+            transform: 'translateY(-50%)',
+            whiteSpace: 'nowrap',
           }}
         >
           {style.text}
